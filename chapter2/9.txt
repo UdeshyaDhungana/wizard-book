@@ -1,0 +1,56 @@
+
+Proof that width of addition of two intervals is function of width of the two
+individual intervals
+
+let i = (a,b)
+    j = (c,d)
+
+w(i) = (b-a)/2
+w(j) = (d-c)/2
+k = i + j = (a+c, b+d)
+
+w(k) = 1/2 (b+d - (a+c)) = 1/2 (-a + b -c + d)
+w(i) + w(j) = 1/2 (-a + b -c + d) = w(k)
+
+So, this is proved for addition
+
+
+==============================
+
+For subtraction
+
+let i = (a,b)
+    j = (c,d)
+
+We multiply each element of j by -1, since d becomes a number lower than c now,
+let j' = (-d, -c)
+
+w(i) = (b-a)/2
+w(j) = (d-c)/2
+
+w(j') = (-c - (-d)) / 2 = (d-c)/2 = w(j)
+
+k = i - j = i + j'
+k = i + j = (a-d, b-c)
+
+w(k) = 1/2 (b-c-a+d) = (-a + b - c + d)
+
+w(i) + w(j') = (b-a)/2 + (d-c)/2 = (-a + b - c + d)/2 = w(k)
+
+So, this is proved for subtraction too
+
+==============================
+
+For multiplication
+
+let i = (99,101)
+    j = (-1, 1)
+
+k = i * j = (-99, 101)
+
+w(i) = (101-99)/2 = 1
+w(j) = (1- (-1))/2 = 1
+
+w(k) = (101 - (-99))/2 = 100
+
+w(i) * w(j) = 1 != w(k)

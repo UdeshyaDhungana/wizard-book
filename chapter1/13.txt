@@ -1,0 +1,11 @@
+https://codology.net/post/sicp-solution-exercise-1-13/
+
+I did it some other way by proving
+
+fib(n+1) = fib(n) - fib(n-1)
+and substituting value for fib(n) and fib(n-1)
+
+I'm not sure if this is right
+
+
+The rest continues as (1-sqrt(5))/2 is smaller than 1

@@ -1,0 +1,8 @@
+Because built in `if` procedure, inspite following applicative order evaluation, does not 
+expand second argument if predicate is true and goes with first option only
+i.e. at some time, guess will be good enough and it returns `guess` without evaluating
+second parameter
+
+but `new-if` is a user-made function that doesn't have such property. Even though, at some point
+guess is good enough, the function still evaluates second half, i.e. (sqrt-iter (improve guess x) x)
+causing an infinite loop

@@ -1,0 +1,10 @@
+I was not sure about this and searched the internet for it.
+
+I found this in http://community.schemewiki.org/?sicp-ex-2.14-2.15-2.16
+
+ A fiendish question. They say it's "very difficult" as if it's doable.
+ I'm not falling for that. Essentially, I believe we'd have to introduce
+ some concept of "identity", and then have the program be clever enough
+ to reduce equations. Also, when supplying arguments to any equation,
+ we'd need to indicate identity somehow, since [2, 8] isn't necessarily
+ the same as [2, 8] ... unless it is. Capiche?

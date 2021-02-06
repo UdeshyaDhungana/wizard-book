@@ -1,0 +1,7 @@
+Applicative order => Lisp users
+Normal order => Lazy evaluation
+
+---
+On running the program, it never terminates
+So, lisp uses applicative order evaluation.
+---

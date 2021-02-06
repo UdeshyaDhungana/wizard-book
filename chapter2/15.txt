@@ -1,0 +1,9 @@
+Explaining why an expression with single occurence of uncertian
+variable produces a better bound thatn that with repeated occurence
+
+An expression 'a' can be written as 'a' itself,
+also, the result 'a' + 'b' - 'b'  = 'a' arithmetically,
+
+but in interval arithmetic, 'b' - 'b' would not evaluate to zero,
+that's why 'a' and 'a' + 'b' - 'b' produces different results
+

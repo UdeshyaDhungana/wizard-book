@@ -1,0 +1,8 @@
+Function definitions
+
+f(n) = 2 * n
+
+g(n) = 2^n
+
+h(n) = 2 ^ h(n-1),
+and h(0) = 0
