@@ -1,5 +1,8 @@
 
-					;Changing representation of sum and product to handle arbritary number of terms
+					;Derivative for infix notation
+
+					;We do this by simply changing the representation of product and sum, rather than
+					;changing the derivative procedure
 
 (define (deriv exp var)
   (cond ((number? exp) 0)
@@ -15,52 +18,42 @@
 				 (multiplicand exp))))
 	(else "unknown expression type -- DERIV" exp)))
 
-
 (define (variable? x) (symbol? x))
-
 
 (define (same-variable? v1 v2)
   (and (variable? v1) (variable? v2) (eq? v1 v2)))
 
 (define (sum? s)
-  (and (pair? s) (eq? (car s) '+)))
+  (and (pair? s) (eq? (cadr s) '+)))
 
 (define (addend s)
-  (cadr s))
+  (car s))
 
 (define (augend s)
-  (if (= 2 (length (cdr s))) ;We have two product terms
-      (caddr s)
-      (cons '+ (cddr s))))
-  
+  (caddr s))
+
 (define (product? p)
-  (and (pair? p) (eq? (car p) '*)))
+  (and (pair? p) (eq? (cadr p) '*)))
 
 (define (multiplier p)
-  (cadr p))
+  (car p))
 
 (define (multiplicand p)
-  (if (= 2 (length (cdr p)))
-      (caddr p)
-      (cons '* (cddr p))))
-
+  (caddr p))
 
 ;=number?  is defined below
 (define (make-sum a1 a2)
   (cond ((=number? a1 0) a2)
 	((=number? a2 0) a1)
 	((and (number? a1) (number? a2) (+ a1 a2)))
-	(else (list '+ a1 a2))))
-
-
+	(else (list a1 '+ a2))))
 
 (define (=number? exp num)
   (and (number? exp) (= exp num)))
 
-					;make-product
 (define (make-product p1 p2)
   (cond ((or (=number? p1 0) (=number? p2 0)) 0)
 	((=number? p1 1) p2)
 	((=number? p2 1) p1)
 	((and (number? p1) (number? p2)) (* p1 p2))
-	(else (list '* p1 p2))))
+	(else (list p1 '* p2))))
