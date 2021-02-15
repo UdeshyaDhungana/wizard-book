@@ -45,4 +45,4 @@
 ;; (a b b) and our arguments are of type (a b c), any coercion will not produce
 ;; (a b b) because all elements must be same type in coercion. So this will fail
 
-;; Two argument will fail on any operation with 3 or more arguments
+;; Two argument will fail on any operation with 3 or more arguments+
