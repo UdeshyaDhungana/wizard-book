@@ -16,7 +16,7 @@
 (define (contents datum)
   (if (pair? datum)
       (cdr datum)
-      (error "Bad tagged datum -- TYPE-TAG" datum)))
+      (error "Bad tagged datum -- CONTENTS" datum)))
 
 (define (install-rectangular-package)
   ;; internal procedures
