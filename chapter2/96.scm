@@ -14,10 +14,21 @@
       a
       (gcd-terms b (pseudoremainder-terms a b))))
 
+;; Now gcd has integer coefficients, but they are larger than that of P1
+;; Now let's divide each coefficients by gcd of all the coefficients and
+;; voila, we have here coefficients without common factors
+
 ;; b
+;; Implementation change
+
+(define (remove-constant-factor termlist)
+  (if (empty-termlist? termlist)
+      termlist
+      (let* ((common-gcd (map greatest-common-divisor each-term)) ;gcd of all the coefficients
+	     (divisor (adjoin-term (make-term 0 common-gcd) (the-empty-termlist))))
+	(car (div-terms termlist divisor)))))
+
 (define (gcd-terms a b)
   (if (empty-termlist? b)
-      (let* ((coeff-list (map coeff a))
-	     (gcd-coefficient (apply gcd coeff-list)))
-	(div-terms a (make-term 0 gcd-coefficient)))
+      (remove-constant-factor a)
       (gcd-terms b (pseudoremainder-terms a b))))
