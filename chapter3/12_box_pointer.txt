@@ -1,0 +1,54 @@
+
+I'm bored so let's try out some box pointer diagrams
+
+    +-----+-----+	+-----+-----+
+x--*|  	  |     +-------+     |NULL |
+    +--+--+-----+      	+---+-+-----+
+       |		    |
+       |		    |
+       v 		    v
+       a              	    b
+
+
+    +-----+-----+	+-----+-----+
+y--*|  	  |     +-------+     |NULL |
+    +--+--+-----+      	+---+-+-----+
+       |		    |
+       |		    |
+       v 		    v
+       c              	    d
+
+(define z (append x y))				      
+This will create a new object z that will have a value of y appended after x
+						      
+    +-----+-----      +-----+-----+	 +-----+-----+ 	  +-----+-----+
+z--*|     |     +-----+     |     +------|     |     |----+     |NULL |
+    +---+-+-----+     +--+--+-----+	 +--+--+-----+	  +--+--+-----+
+        |		 |		    |	      	     |	     
+	|		 |		    |	      	     |	     
+	|		 |		    |	      	     |	     
+	v		 v		    v  	      	     v	     
+	a		 b		    c	      	     d	     
+						      		     
+So, cdr of x will return (b) because x isn't modified since its creation
+						      		     
+(define w (append! x y))			      		     
+						      		     
+This will mutate x and set the cdr of last pair of x to be y, and reference it (the new x) using w
+This means w and x will point to the same object which is y appended after old form of x
+Modifying w will result in modification of x and y, and modification of either x or y will result in
+the modification of w						     
+								     
+So, the new x is			 y			     
+					 |     	       	       	     
+					 v	      		     
+w--*+-----+------     +-----+-----+	 +-----+-----+ 	  +-----+-----+
+    |     |     +-----+     |     +------|     |     |----+     |NULL |
+x--*+---+-+-----+     +--+--+-----+	 +--+--+-----+	  +--+--+-----+
+        |		 |		    |	      	     |	     
+	|		 |		    |	      	     |	     
+	|		 |		    |	      	     |	     
+	v		 v		    v  	      	     v	     
+	a		 b		    c	      	     d	     
+					  			     
+As you can see, w and x point to the same object and y points to the 'cddr' of x     
