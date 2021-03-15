@@ -8,13 +8,14 @@
 ;; else, add that to visited list, return
 ;; (+ 1 (count-pairs (car x)) (count-pairs (cdr x)))
 
-(define visited '())
-
 (define (count-pairs x)
-  (if (not (pair? x))
-      0
-      (if (memq x visited)
+  (let ((visited '()))
+    (define (helper x)
+      (if (or (not (pair? x)) (memq x visited))
 	  0
-	  (begin (set! visited (cons x visited))
-		 (+ 1 (count-pairs (car x))
-		    (count-pairs (cdr x)))))))
+	  (begin
+	    (set! visited (cons x visited))
+	    (+ (helper (car x))
+	       (helper (cdr x))
+	       1))))
+  (helper x)))
