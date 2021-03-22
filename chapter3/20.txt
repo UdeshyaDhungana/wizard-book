@@ -1,0 +1,43 @@
+
+Environment diagram
+
+      +----------------------------------------------------------+Global Environment
+      |                                                          |
+      |                                                          |
+      |                                                          |
+      |                                                          |
+      | x        z            cons  car  cdr  set-car!  set-cdr! |
+      +-+--------+--------------+----+----+------+---------+-----+
+	|     ^	 |	      	|    | 	  |	 |	   |
+	|     |	 |	   	|    | 	  |	 |	   |
+	|     |	 |	   	|    | 	  |	 |	   |
+	|     |	 |	   	|    | 	  |	 |	   |
+  	V     |	 |	   	|    | 	  |	 |	   |
+       (*,*)  |  |  	   	       	|    | 	  |	 |     	   |
+para:x,	y |   |	 |	    (*,*)   (*,*) (*,*)  (*,*) 	  (*,*)
+body:  	  |   |	 +----+	       |       |     |	    |  	     |
+    E1 	  V   |	      |	       |       |     |	    |	     |
+   +------------+     |	       V       V     V	    V	     V
+   |x:1	set-x!:-++    |	       code   code   code   code     code
+   |y:2	set-y!: ||    |
+   |dispatch:| 	|| (*,*)parameters: x,y, body:
+   +-+-------+--+|    |	  	       	       	     E2
+     | 	     | 	 |    |	  	+----------------------+
+     | 	     | 	 |    +--------+|x:x                   |
+     | 	     | 	 |	  	|y:y         dispatch: |
+     | 	     | 	 |	  +-----+set-x!:      |        |
+     | 	     |	 |	  |    	|set-y!:      |        |
+     | 	     |	 |	  |    	+--+----------+--------+
+     | 	     |	 |	  |    	   |   	      |
+     | 	     |	 V	  V   	   |	      |
+     | 	     |	parameter: m  	   |	      |
+     |	     |	body:code     	   |	      |
+     |	     |		      	   |	      |
+     |	     ->	parameter: v  <----+	      |
+     |	      	body: code		      |
+     |	      				      |
+     | 	       	parameters: v  <--------------+
+     +--------> body: code
+
+
+Beautiful, comrades! :fist-tone4:
