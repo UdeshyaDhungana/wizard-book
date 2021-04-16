@@ -55,7 +55,4 @@
 ;;   (disp ((a 'insert-queue!) 3))
 ;;   (disp (a 'empty-queue?))
 ;;   (disp (a 'front-queue))
-;;   (disp ((a 'insert-queue!) 4))
-  
-;;   )
-
+;;   (disp ((a 'insert-queue!) 4)))
