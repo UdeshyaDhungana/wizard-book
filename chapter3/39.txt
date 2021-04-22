@@ -1,0 +1,4 @@
+
+101: A accesses -> A sets -> B accesses -> B sets
+100: A accesses -> B accesses -> B sets -> A sets
+121: B accesses -> B sets -> A accesses -> A sets

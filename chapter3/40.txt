@@ -1,0 +1,26 @@
+
+
+P1 events:
+a) access x1
+b) access x2
+c) new value = x1 * x2
+d) set! x to new value
+
+P2 events:
+v) access x1
+w) access x2
+x) access x3
+y) new value = x1 * x2 * x3
+z) set! x to new value
+
+significant event sequences and their results:
+** (P1) refers to event sequence "abcd", (P2) refers to event sequence "vwxyz"
+1. (P1)(P2) => 1,000,000
+2. (P2)(P1) => 1,000,000
+3. a(P2)bcd => 10,000
+4. v(P1)wxyz => 100,000
+5. vw(P1)xyz => 10,000
+6. abc(P2)d => 100
+7. vwxy(P1)z => 1,000
+
+After serializing however, only 10⁶ exists

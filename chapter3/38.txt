@@ -1,0 +1,20 @@
+
+;; Answer to part a:
+==================================================
+
+Let the withdrawal/deposit of Peter, Paul and Mary be represented by
+T, P and M respectively. The order are:
+
+We start with $100
+
+TPM: $110 -> $90  -> $45
+TMP: $110 -> $55  -> $35
+MTP: $50  -> $60  -> $40
+MPT: $50  -> $30  -> $40
+PMT: $80  -> $40  -> $50
+PTM: $80  -> $90  -> $45
+
+;; Answer to part b
+==================================================
+
+You know what, many different combinations are possible, and I'm tired to list them, comrade!

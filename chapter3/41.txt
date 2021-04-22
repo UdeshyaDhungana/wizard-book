@@ -1,0 +1,4 @@
+
+Withdraw and deposit are already serialized, gettting the balance does not change the state of the account.
+Even if another deposit or withdraw tries to access the information, it cannot. It's serialized. So,
+serializing the balance procedure is unnecessary.

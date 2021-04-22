@@ -1,0 +1,3 @@
+
+Serializer is a set of procedures, in which not two procedures of the set can
+access the same variable simultaneously. It prevents interweaving of processes.
