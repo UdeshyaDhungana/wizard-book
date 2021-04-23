@@ -1,0 +1,4 @@
+
+No, Louis is not right. This method works well because .... it just works,
+there is not weaving of any processes that'll result in abnormal behaviour.
+Furthermore, transfer is independent of state of any account.

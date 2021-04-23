@@ -1,0 +1,36 @@
+
+
+Let's say,
+
+A = 10
+B = 20
+C = 30
+
+P1: Exchange A and B
+P2: Exchange B and C
+P3: Exchange C and A
+
+Each process consists of following subprocesses
+1. Read first account value
+2. Read second account value
+3. Calculate the difference
+4. Modify the balance
+
+This can take place:
+
+P1: Read A = 10
+P2 (entire process) A = 10, B = 30, C = 20
+P3 (entire process) A = 20, B = 30, C = 10
+P1: Reads B = 30
+P1: Difference = 20
+P1: Set A = 20 + 20 = 40
+P1: Set B = 30 - 20 = 10
+
+Final:
+
+A = 40
+B = 10
+C = 10
+
+Balance is preserved no matter what because no matter what the difference,
+the withdrawal on one account always appears on the another.

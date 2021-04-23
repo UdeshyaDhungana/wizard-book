@@ -1,0 +1,4 @@
+
+Peter calls test-and-set! and finds it to be false, Paul also does the
+same, since both of them find the mutex to be available, both of them
+acquire the mutex. No bueno!
