@@ -1,0 +1,2 @@
+The question hints that this mechanism can fail when we only realise
+what other resources we need access to once we’ve acquired a lock
