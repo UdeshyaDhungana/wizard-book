@@ -1,8 +1,14 @@
 
 ;; Stream map procedure
 
-(load "stream.scm")
+;; One that works on only one
+(define (stream-map-one proc stream)
+  (if (stream-null? stream)
+      the-empty-stream
+      (cons-stream (proc (stream-car stream))
+		   (stream-map-one proc (stream-cdr stream)))))
 
+;; A version that works on multiple streams
 (define (stream-map proc . argstreams)
   (if (stream-null? (car argstreams))
       the-empty-stream

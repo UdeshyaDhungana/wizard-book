@@ -4,20 +4,6 @@
 ;; construction time. With streams, the cdr is evaluated at selection
 ;; time.
 
-(define (cons-stream a b)
-  (cons a (delay b)))
-
-(define (stream-car stream)
-  (car stream))
-
-(define (stream-cdr stream)
-  (force (cdr stream)))
-
-(define the-empty-stream '())
-
-(define (stream-null? stream)
-  (null? stream))
-
 (define (stream-enumerate-interval low high)
   (if (> low high)
       the-empty-stream
