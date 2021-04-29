@@ -24,3 +24,10 @@
 
 ;; (delay <exp>) => (lambda() <exp>)
 ;; (force <exp>) => (<exp>)
+
+
+;; mandatory for experiments
+(define (integers-starting-from n)
+  (cons-stream n (integers-starting-from (+ n 1))))
+
+(define integers (integers-starting-from 1))
