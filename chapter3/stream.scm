@@ -31,3 +31,10 @@
   (cons-stream n (integers-starting-from (+ n 1))))
 
 (define integers (integers-starting-from 1))
+
+(define (display-stream s)
+  (stream-for-each display-line s))
+
+(define (display-line x)
+  (newline)
+  (display x))
