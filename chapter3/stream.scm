@@ -38,3 +38,5 @@
 (define (display-line x)
   (newline)
   (display x))
+
+(define sr stream-ref)
