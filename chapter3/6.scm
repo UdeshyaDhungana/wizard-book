@@ -1,7 +1,7 @@
 
 ;; Resetting the random number
 
-(define rand
+(define (rand)
   (let ((x random-init))
     (define (dispatch message)
       ;; on getting symbol 'generate, we return a value
