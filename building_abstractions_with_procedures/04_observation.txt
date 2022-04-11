@@ -1,1 +1,2 @@
 Function returns a + absolute_value(b)
+Functions can be returned conditionally

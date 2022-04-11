@@ -1,3 +1,6 @@
+#lang racket
+(require "../lib.rkt")
+
 ;Good enough can be adjusted to give true whenever the square of guess is
 ;absolutely less than 1% of true value
 

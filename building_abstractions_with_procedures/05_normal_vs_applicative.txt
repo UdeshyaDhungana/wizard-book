@@ -5,3 +5,6 @@ Normal order => Lazy evaluation
 On running the program, it never terminates
 So, lisp uses applicative order evaluation.
 ---
+
+If our interpreter had done it in normal order,
+the program would have been terminated.

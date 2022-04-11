@@ -1,8 +1,11 @@
 Function definitions
 
+;; Substitution model
 f(n) = 2 * n
 
+;; Try a few values
 g(n) = 2^n
 
+;; Try a few values starting from 0, you'll get the idea!
 h(n) = 2 ^ h(n-1),
 and h(0) = 0

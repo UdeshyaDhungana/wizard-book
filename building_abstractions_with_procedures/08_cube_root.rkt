@@ -1,7 +1,9 @@
-;Calculate cube root of a number
+#lang racket
+(require "../lib.rkt")
 
+;;;; Calculate cube root of a number
 
-;Absolute error less than 1% of original
+;; Absolute error less than 1% of original
 (define (good-enuf? guess x)
   (< (/ (abs (- (cube guess) x)) x) 0.01))
 
@@ -13,4 +15,4 @@
     guess
     (cube-root-iter (improve guess x) x)))
 
-(cube-root-iter 2 27)
+(cube-root-iter 2 27.0)

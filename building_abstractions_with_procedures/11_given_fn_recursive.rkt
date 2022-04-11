@@ -1,12 +1,9 @@
+#lang racket
 ;Compute give f(n)
 
 (define (f n)
   (cond ((< n 3) n)
-        (else (+ (f (- n 1)) (* 2 (f (- n 2))) (* 3 (f (- n 3)))))
-        ))
-
-
-(f 7)
+        (else (+ (f (- n 1)) (* 2 (f (- n 2))) (* 3 (f (- n 3)))))))
 
 ;Construct a table to see a pattern
 
@@ -16,9 +13,7 @@
           (else 
             (display (f start))
             (display "\n")
-            (make-table (+ start 1) end)))
-  )
-  (make-table 1 max)
-)
+            (make-table (+ start 1) end))))
+  (make-table 1 max))
 
 (table 10)

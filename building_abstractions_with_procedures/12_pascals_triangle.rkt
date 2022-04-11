@@ -1,3 +1,4 @@
+#lang racket
 ;Pascal's Triangle
 
 (define (pascal row column)
