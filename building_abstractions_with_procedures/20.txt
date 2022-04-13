@@ -1,4 +1,0 @@
-
-
-Normal order was too hefty -> Turns out it involves 20 remainder calls
-Applicative order -> 4 calls

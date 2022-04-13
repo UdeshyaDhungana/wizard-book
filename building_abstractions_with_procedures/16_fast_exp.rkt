@@ -1,6 +1,8 @@
+#lang racket
+
+(require "../lib.rkt")
 
 ;Fast exponentian
-
 (define (fast-exponentian base exponent)
   (define (fexp b n a)
     (cond ((= n 0) a)

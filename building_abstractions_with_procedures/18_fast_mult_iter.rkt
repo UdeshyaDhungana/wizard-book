@@ -1,4 +1,4 @@
-
+#lang racket
 ;Fast multiplication
 
 
@@ -11,9 +11,8 @@
       ((= a 0) result)
       ((even? a) (fp (halve a) (double b) result))
       (else (fp (- a 1) b (+ result b)))))
-
-  (fp a b 0)
-  )
+  (fp a b 0))
 
 
 (product 10 7)
+(product 0 10)
