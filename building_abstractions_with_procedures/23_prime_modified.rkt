@@ -1,14 +1,14 @@
 #lang racket
 ; --- Prime computation ---
 
-(define (square x) (* x x))
+(require "../lib.rkt")
 
 (define (smallest-divisor n)
   (find-divisor n 2))
 
 (define (find-divisor n test-divisor)
-  (define (next n)
-    (if (= n 2) 3 (+ n 2)))
+  (define (next x)
+    (if (= x 2) 3 (+ x 2)))
   (cond ((> (square test-divisor) n) n)
         ((divides? test-divisor n)
          test-divisor)
