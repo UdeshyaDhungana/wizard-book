@@ -1,7 +1,9 @@
-
+#lang racket
 ;Modification of timed-prime-test to use fast-prime
 
 ; --- Prime computation ---
+
+(require "../lib.rkt")
 
 (define (expmod base exp m)
   (cond ((= exp 0) 1)
@@ -44,10 +46,7 @@
     (cond ((<= start end) 
            (timed-prime-test start)
            (search-for-primes (+ start 2) end))
-          (else (newline) (display "done"))
-          )
-    )
-  )
+          (else (newline) (display "done")))))
 
 (search-for-primes 10000000 10000103)
 (search-for-primes 100000000 100000039)

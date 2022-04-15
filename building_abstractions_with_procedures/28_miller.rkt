@@ -1,3 +1,7 @@
+#lang racket
+
+(require "../lib.rkt")
+
 (define (miller-rabin n)
   (miller-rabin-test (- n 1) n))
 

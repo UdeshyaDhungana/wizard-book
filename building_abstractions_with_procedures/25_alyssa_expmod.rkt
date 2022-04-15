@@ -1,4 +1,4 @@
-
+#lang racket
 ;Modification of timed-prime-test to use fast-prime
 
 ; --- Prime computation ---
