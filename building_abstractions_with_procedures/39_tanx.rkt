@@ -1,6 +1,7 @@
-
+#lang racket
 ;Estimating tan(r)
 
+(require "../lib.rkt")
 
 (define (cont-frac n d k)
   (define (iter i result)
@@ -8,8 +9,6 @@
       result
       (iter (- i 1) (/ (n i) (+ (d i) result)))))
   (iter k 0))
-
-
 
 
 

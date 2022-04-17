@@ -1,4 +1,4 @@
-
+#lang racket
 ; Solution to x^x = 1000
 
 (define tolerance 0.00001)

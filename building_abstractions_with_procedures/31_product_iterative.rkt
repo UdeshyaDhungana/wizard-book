@@ -1,11 +1,12 @@
-
+#lang racket
 ;Product using higher order procedure
 
 (define (product term a next b)
-  (if (> a b)
-    1
-    (* (term a) (product term (next a) next b)))
-)
+  (define (iter start accumulator)
+    (if (> start b)
+      accumulator
+      (iter (next start) (* accumulator (term start)))))
+  (iter a 1))
 
 (define (factorial n)
   (define (identity x) x)

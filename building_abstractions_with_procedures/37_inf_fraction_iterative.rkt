@@ -1,4 +1,4 @@
-
+#lang racket
 ;Infinite continued fraction using iterative process
 
 (define (cont-frac n d k)
@@ -10,4 +10,8 @@
 
 (define (id x) 1.0)
 
-(cont-frac id id 20)
+;; psi (golden number)
+(/ 1 (cont-frac id id 20))
+
+;; 11/19
+(cont-frac identity identity 4)

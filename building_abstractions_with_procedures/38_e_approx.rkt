@@ -1,4 +1,4 @@
-
+#lang racket
 ;Estimating Euler's constant using `cont-frac`
 
 
@@ -15,11 +15,11 @@
   (define (int-div a b)
     (/ (- a (remainder a b)) b))
   (if (= (remainder x 3) 2)
-    (* 2 (+ 1 (int-div x 3)))
-    1))
+      (+ 2 (* 2 (quotient x 3)))
+      1))
 
 
 (define (id x) 1.0)
 
 ;Estimating e-2
-(cont-frac id euler 20)
+(+ 2 (cont-frac id euler 20))
