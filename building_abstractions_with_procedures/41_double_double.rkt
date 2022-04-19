@@ -1,4 +1,4 @@
-
+#lang racket
 ;Implementation of double procedure
 
 (define (double f)
@@ -12,3 +12,5 @@
 (inc-twice 2)
 
 (((double (double double)) inc) 5)
+
+(((double double) inc) 5)

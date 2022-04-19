@@ -1,4 +1,4 @@
-
+#lang racket
 ;Compute nth root of a number
 
 ;Repeated procedure

@@ -1,5 +1,7 @@
-
+#lang racket
 ;Iterative improve
+
+(require "../lib.rkt")
 
 (define (iterative-improve good-enough? improve)
   (letrec ((iterator (lambda (guess)

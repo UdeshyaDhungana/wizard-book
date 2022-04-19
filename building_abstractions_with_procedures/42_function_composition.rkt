@@ -1,5 +1,7 @@
-
+#lang racket
 ;Implementation of compositon of functions
+
+(require "../lib.rkt")
 
 (define (compose f g)
   (lambda (x)

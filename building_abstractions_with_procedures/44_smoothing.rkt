@@ -1,5 +1,7 @@
-
+#lang racket
 ;Smoothing a function
+
+(require "./43_fn.rkt")
 
 (define dx 0.0001)
 
