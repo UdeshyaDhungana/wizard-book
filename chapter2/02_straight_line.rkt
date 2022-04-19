@@ -1,4 +1,5 @@
-					;Implementation of point, line segment, and midpoint
+#lang racket
+;; Implementation of point, line segment, and midpoint
 
 (define (make-point x y)
   (cons x y))
@@ -32,10 +33,10 @@
               (/ (+ (y-point (start-segment seg)) (y-point (end-segment seg))) 2)))
 
 
-(define star (make-point 2 3))
+(define start (make-point 2 3))
 (define end (make-point 10 9))
 
-(define myseg (make-segment star end))
+(define myseg (make-segment start end))
 
 (define mp (mid-point myseg))
 

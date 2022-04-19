@@ -1,3 +1,4 @@
+#lang racket
 ;Demonstration program
 
 (define (make-interval a b)
@@ -42,11 +43,13 @@
 (define (mul-interval a b)
   (make-center-percentage (* (center a) (center b)) (+ (percent a) (percent b))))
 
+(define (reciprocal interval)
+  (make-interval (/ 1.0 (upper interval))
+                 (/ 1.0 (lower interval))))
+
 
 (define (div-interval x y)
-  (approx-mul x 
-                (make-interval (/ 1.0 (upper y))
-                               (/ 1.0 (lower y)))))
+  (mul-interval x (reciprocal y)))
 
 					;Test the results
 
@@ -62,9 +65,9 @@
 
 
 					;Mistake can be verified by doing
-					;(define r1 (make-center-percentage 100 3))
-					;(define r2 (make-center-percentage 100 3))
-					;(par1 r1 r2)
-					;(par2 r1 r2)
+(define r1 (make-center-percentage 100 3))
+(define r2 (make-center-percentage 100 3))
+(par1 r1 r2)
+(par2 r1 r2)
 					;The results are differnet
 

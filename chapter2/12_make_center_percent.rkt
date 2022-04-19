@@ -1,4 +1,5 @@
-					;Program to implement make-center-width
+#lang racket
+;Program to implement make-center-width
 
 (define (make-interval a b)
   (if (> a b)

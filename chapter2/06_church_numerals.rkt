@@ -1,3 +1,4 @@
+#lang racket
 ;Church Numerals
 
 (define zero (lambda (f) (lambda (x) x)))
@@ -36,7 +37,7 @@
 (define (add a b)
   (lambda (f)
     (lambda(x)
-      ( (a f) ((b f) x) ))))
+      ((a f) ((b f) x) ))))
 
 
 ;(b f) -> returns a procedure that applies f to its arguments b times
@@ -45,4 +46,4 @@
 ;(a f) -> returns a procedure that applies f to its arguments a times
 ;(a f) ((b f) x) -> a applications of f onto (b applications of f onto x)
 
-;Goddamn this is beautiful and borderline insanity
+;Goddamn this is beautiful

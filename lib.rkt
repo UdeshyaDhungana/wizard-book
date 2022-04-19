@@ -26,8 +26,14 @@
 (define (prime? n)
   (= n (smallest-divisor n)))
 
+
+;; average
+(define (average x y)
+  (/ (+ x y) 2))
+
 ;; exports
 (provide square)
 (provide cube)
 (provide divides?)
 (provide prime?)
+(provide average)

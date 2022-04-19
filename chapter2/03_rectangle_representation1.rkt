@@ -1,4 +1,7 @@
-					;Rectangle Implementation
+#lang racket
+;Rectangle Implementation
+
+(require racket/provide)
 
 (define (make-point x y)
   (cons x y))
@@ -40,3 +43,6 @@
 
 (get-area myrect)
 (get-perimeter myrect)
+
+(provide get-area)
+(provide get-perimeter)
