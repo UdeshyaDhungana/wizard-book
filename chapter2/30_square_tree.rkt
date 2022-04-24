@@ -1,4 +1,6 @@
-					;With higher order function
+#lang racket
+
+(require "../lib.rkt")
 
 (define (square-tree tree)
   (map (lambda (sub-tree)
@@ -9,6 +11,6 @@
 
 ;Without higher level function
 (define (square-self tree)
-  (cond ((null? tree) ())
+  (cond ((null? tree) '())
 	((pair? tree) (cons (square-self (car tree)) (square-self (cdr tree))))
 	(else (square tree))))

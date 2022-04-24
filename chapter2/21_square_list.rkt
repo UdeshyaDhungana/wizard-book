@@ -1,15 +1,15 @@
-					;Squaring a list
+#lang racket
 
-					;Map procedure (A higher level function)
+(require "../lib.rkt")
 
 (define (map proc items)
   (if (null? items)
-      ()
+      '()
       (cons (proc (car items)) (map proc (cdr items)))))
 
 (define (square-list items)
   (if (null? items)
-      ()
+      '()
       (cons (square (car items)) (square-list (cdr items)))))
 
 

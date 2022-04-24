@@ -4,14 +4,10 @@
 ; --- Prime computation ---
 
 
-(define (square x)
-  (display "Square") (display x) (newline)
-  (* x x))
-
 (define (fast-exponentian base exponent)
   (define (fexp b n a)
     (cond ((= n 0) a)
-          ((even? n) (fexp (square b) (/ n 2) a))
+          ((even? n) (fexp (sqr b) (/ n 2) a))
           (else (fexp b (- n 1) (* a b)))))
   (fexp base exponent 1))
 
@@ -22,7 +18,7 @@
 (define (expmod base exp m)
   (cond ((= exp 0) 1)
         ((even? exp)
-         (remainder (square (expmod base (/ exp 2) m))
+         (remainder (sqr (expmod base (/ exp 2) m))
                     m))
         (else
          (remainder (* base (expmod base (- exp 1) m))

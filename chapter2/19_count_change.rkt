@@ -1,3 +1,4 @@
+#lang racket
 					;Change making using list
 
 (define (count-change amount)
@@ -14,7 +15,7 @@
                 coin-values)))))
 
 (define (no-more? l)
-  (< (length l) 1))
+  (= (length l) 0))
 
 (define (except-first-denomination l)
   (cdr l))
@@ -22,6 +23,9 @@
 (define (first-denomination l)
   (car l))
 
-(define nepal-coins (list 50 20 10 5 2 1))
+(define nepal-coins (list 50 25 10 5 1))
+(define nepal-coins-reverse (reverse (list 50 25 10 5 1) ))
 
 (cc 100 nepal-coins)
+(cc 100 nepal-coins-reverse)
+;; No effect on changing orders

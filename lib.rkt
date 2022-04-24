@@ -17,8 +17,8 @@
         ((divides? test-divisor n)
          test-divisor)
         (else (find-divisor
-                n
-                (next test-divisor)))))
+               n
+               (next test-divisor)))))
 
 (define (divides? a b)
   (= (remainder b a) 0))
@@ -31,9 +31,50 @@
 (define (average x y)
   (/ (+ x y) 2))
 
+;; accumulate
+(define (accumulate operation initial sequence)
+  (if (null? sequence)
+      initial
+      ;; operate -> car -> acc rest
+      ;; combine first element of sequence with result of combining all the right elements
+      (operation (car sequence) (accumulate operation initial (cdr sequence)))))
+(define fold-right accumulate)
+
+
+(define (accumulate-n op init seqs)
+  (if (null? (car seqs))
+      '()
+      (cons (accumulate op init (map (lambda (x) (car x)) seqs))
+            (accumulate-n op init (map (lambda (x) (cdr x)) seqs)))))
+
+;; fold left: accumulate, but in reverse order
+(define (fold-left op initial sequence)
+  (define (iter result remaining)
+    (if (null? rest)
+        result
+        ;; apply result to car of the rest
+        (iter (op result (car remaining))
+              (cdr rest))))
+  (iter initial sequence))
+
+;; enumerate interval inclusive
+(define (enumerate-interval start end)
+  (if (> start end)
+      '()
+      (cons start (enumerate-interval (+ 1 start) end))))
+
+;; flatmap
+(define (flatmap proc seq)
+  (accumulate append null (map proc seq)))
+
 ;; exports
 (provide square)
 (provide cube)
 (provide divides?)
 (provide prime?)
 (provide average)
+(provide accumulate)
+(provide accumulate-n)
+(provide fold-right)
+(provide fold-left)
+(provide enumerate-interval)
