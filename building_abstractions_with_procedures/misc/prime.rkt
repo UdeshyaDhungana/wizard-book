@@ -3,10 +3,8 @@
 
 (require "../lib.rkt")
 
-(define (smallest-divisor n) (find-divisor n 2))
-
 (define (find-divisor n test-divisor)
-  (cond ((> (square test-divisor) n) n)
+  (cond ((> (sqr test-divisor) n) n)
         ((divides test-divisor n) test-divisor)
         (else (find-divisor n (+ 1 test-divisor)))))
 
@@ -24,7 +22,7 @@
   (cond ((= exponent 0) 1)
         ((even? exponent)
          (remainder
-          (square (expmod base (/ exponent 2) m))
+          (sqr (expmod base (/ exponent 2) m))
                   m))
          (else (remainder
                 (* base (expmod base (- exponent 1) m))

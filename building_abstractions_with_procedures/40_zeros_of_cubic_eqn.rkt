@@ -34,6 +34,6 @@
 
 
 (define (cubic a b c)
-  (lambda(x) (+ (cube x) (* a (square x)) (* b x) c)))
+  (lambda(x) (+ (expt x 3) (* a (sqr x)) (* b x) c)))
 
 (newtons-method (cubic -6 11 -6) 4)

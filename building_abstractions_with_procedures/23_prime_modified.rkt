@@ -9,7 +9,7 @@
 (define (find-divisor n test-divisor)
   (define (next x)
     (if (= x 2) 3 (+ x 2)))
-  (cond ((> (square test-divisor) n) n)
+  (cond ((> (sqr test-divisor) n) n)
         ((divides? test-divisor n)
          test-divisor)
         (else (find-divisor

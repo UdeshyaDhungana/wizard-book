@@ -1,8 +1,6 @@
 #lang racket
 
-(require "../lib.rkt")
-
-(define (sum-of-square a b) (+ (square a) (square b)))
+(define (sum-of-square a b) (+ (sqr a) (sqr b)))
 
 (define (task a b c)
   (cond ((and (= (min a b) a) (= (min a c) a))  (sum-of-square b c))

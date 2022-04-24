@@ -1,9 +1,6 @@
 #lang racket
 
 ;; Some useful functions not available in default racket
-(define (square x) (* x x))
-
-(define (cube x) (* x x x))
 
 ;; Prime checking module
 (define (smallest-divisor n)
@@ -12,7 +9,7 @@
 (define (find-divisor n test-divisor)
   (define (next n)
     (if (= n 2) 3 (+ n 2)))
-  (cond ((> (square test-divisor) n)
+  (cond ((> (sqr test-divisor) n)
          n)
         ((divides? test-divisor n)
          test-divisor)
@@ -28,8 +25,12 @@
 
 
 ;; average
-(define (average x y)
-  (/ (+ x y) 2))
+(define (average x . y)
+  (define (iter sequence result l)
+    (if (null? sequence)
+        result
+        (iter (cdr sequence) (/ (+ (car sequence) (* result (- l 1.0))) l) (+ l 1))))
+  (iter (cons x y) 0.0 1))
 
 ;; accumulate
 (define (accumulate operation initial sequence)
@@ -68,8 +69,7 @@
   (accumulate append null (map proc seq)))
 
 ;; exports
-(provide square)
-(provide cube)
+(provide smallest-divisor)
 (provide divides?)
 (provide prime?)
 (provide average)

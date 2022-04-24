@@ -18,7 +18,7 @@
 
 (define (mysqrt x)
   (define (good-enough?-sqrt guess improved-guess)
-    (< (abs (- (square guess) x)) tolerance))
+    (< (abs (- (sqr guess) x)) tolerance))
   (define (improve guess)
     (/ (+ guess (/ x guess)) 2.0))
   ((iterative-improve good-enough?-sqrt improve) 1.0))

@@ -24,7 +24,7 @@
   (fixed-point (average-damp (lambda (y) (/ x y))) 1.0))
 
 (define (cube-root x)
-  (fixed-point (average-damp (lambda (y) (/ x (square y)))) 1.0))
+  (fixed-point (average-damp (lambda (y) (/ x (sqr y)))) 1.0))
 
 ;; Newton's method
 
@@ -33,7 +33,7 @@
   (lambda (x)
     (/ (- (g (+ x dx)) (g x)) dx)))
 
-;; ((derivative (lambda (x) (* 2 (square x)))) 8)
+;; ((derivative (lambda (x) (* 2 (sqr x)))) 8)
 
 (define (newton-transform g)
   (lambda (x) (- x (/ (g x) ((derivative g) x)))))

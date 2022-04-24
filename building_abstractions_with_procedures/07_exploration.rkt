@@ -1,5 +1,4 @@
 #lang racket
-(require "../lib.rkt")
 
 ;Good enough can be adjusted to give true whenever the square of guess is
 ;absolutely less than 1% of true value
@@ -7,7 +6,7 @@
 
 ;New good-enough? function
 (define (new-good-enuf? guess x)
-  (< (/ (abs (- (square guess) x)) x) 0.01))
+  (< (/ (abs (- (sqr guess) x)) x) 0.01))
 
 (define (average x y)
   (/ (+ x y) 2))

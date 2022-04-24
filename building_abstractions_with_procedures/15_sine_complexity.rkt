@@ -1,9 +1,8 @@
 #lang racket
 
 (require racket/trace)
-(require "../lib.rkt")
 
-(define (p x) (- (* 3 x) (* 4 (cube x))))
+(define (p x) (- (* 3 x) (* 4 (expt x 3))))
 
 (define (sine angle)
   (if (not (> (abs angle) 0.1))

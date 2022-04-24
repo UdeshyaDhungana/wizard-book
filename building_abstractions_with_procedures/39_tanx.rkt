@@ -18,7 +18,7 @@
   (define (tan-term x)
     (if (= x 1)
       r
-      (* -1 (square r))))
+      (* -1 (sqr r))))
   (cont-frac tan-term odd 20))
 
 

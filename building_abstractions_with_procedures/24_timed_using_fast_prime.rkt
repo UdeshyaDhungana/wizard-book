@@ -8,7 +8,7 @@
 (define (expmod base exp m)
   (cond ((= exp 0) 1)
         ((even? exp)
-         (remainder (square (expmod base (/ exp 2) m))
+         (remainder (sqr (expmod base (/ exp 2) m))
                     m))
         (else
          (remainder (* base (expmod base (- exp 1) m))
@@ -29,7 +29,7 @@
 (define (timed-prime-test n)
   (newline)
   (display n)
-  (start-prime-test n (runtime)))
+  (start-prime-test n (current-milliseconds)))
 
 (define (report-prime elapsed-time)
   (display " *** ")
@@ -37,7 +37,7 @@
 
 (define (start-prime-test n start-time)
   (if (fast-prime? n 1000)
-    (report-prime (- (runtime) start-time))
+    (report-prime (- (current-milliseconds) start-time))
     "nothing"))
 
 (define (search-for-primes start end)
@@ -51,7 +51,6 @@
 (search-for-primes 10000000 10000103)
 (search-for-primes 100000000 100000039)
 (search-for-primes 1000000000 1000000021)
-(search-for-primes 10000000000 10000000100)
 
 ; Let's see
 
