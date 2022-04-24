@@ -78,3 +78,4 @@
 (provide fold-right)
 (provide fold-left)
 (provide enumerate-interval)
+(provide flatmap)
