@@ -10,7 +10,7 @@
 (define (square-list items)
   (if (null? items)
       '()
-      (cons (square (car items)) (square-list (cdr items)))))
+      (cons (sqr (car items)) (square-list (cdr items)))))
 
 
 (define (square-list-map items)

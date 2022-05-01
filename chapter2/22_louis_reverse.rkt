@@ -7,7 +7,7 @@
     (if (null? things)
         answer
         (iter (cdr things) 
-              (cons (square (car things))
+              (cons (sqr (car things))
                     answer))))
   (iter items '()))
 
@@ -19,7 +19,7 @@
         answer
         (iter (cdr things)
               (cons answer
-                    (square (car things))))))
+                    (sqr (car things))))))
   (iter items '()))
 
 ;; Because to cons a data with a list, we need to add that data from
