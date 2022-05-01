@@ -68,6 +68,10 @@
 (define (flatmap proc seq)
   (accumulate append null (map proc seq)))
 
+;; check if both are equal numeric value
+(define (=number? a b)
+  (and (number? a) (number? b) (= a b)))
+
 ;; exports
 (provide smallest-divisor)
 (provide divides?)
@@ -79,3 +83,4 @@
 (provide fold-left)
 (provide enumerate-interval)
 (provide flatmap)
+(provide =number?)

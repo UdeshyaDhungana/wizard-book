@@ -1,5 +1,4 @@
-
-					;Expressions
+#lang racket
 
 (list 'a 'b 'c)
 

@@ -1,13 +1,16 @@
+#lang racket
 
-					;Flip horizonal painter
+(require sicp-pict)
+
+(define sub-vect vector-sub)
 
 (define (transform-painter painter origin corner1 corner2)
   (lambda (painter)
     (let ((mapper (frame-coord-map frame)))
       (let ((new-origin (mapper origin)))
-	(painter new-origin
-		 (sub-vect (mapper corner1) new-origin)
-		 (sub-vect (mapper corner2) new-origin))))))
+        (painter new-origin
+                 (sub-vect (mapper corner1) new-origin)
+                 (sub-vect (mapper corner2) new-origin))))))
 
 (define (flip-horiz painter)
   (transform-painter painter (make-vector 1 0) (make-vector 0 0) (make-vector 1 1)))

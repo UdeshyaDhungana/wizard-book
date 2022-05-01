@@ -1,4 +1,4 @@
-
+#lang racket
 ;; lookup procedure when set of records is structured as a
 ;; binary tree
 
@@ -24,6 +24,6 @@
 
 (define (lookup given-key tree-of-records)
   (cond ((null? tree-of-records) #f)
-	((= given-key (key (entry tree-of-records))) (value (entry tree-of-records)))
-	((< given-key (key (entry tree-of-records))) (lookup given-key (left-tree tree-of-records)))
-	((> given-key (key (entry tree-of-records))) (lookup given-key (right-tree tree-of-records)))))
+        ((= given-key (key (entry tree-of-records))) (value (entry tree-of-records)))
+        ((< given-key (key (entry tree-of-records))) (lookup given-key (left-tree tree-of-records)))
+        ((> given-key (key (entry tree-of-records))) (lookup given-key (right-tree tree-of-records)))))

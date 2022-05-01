@@ -1,5 +1,8 @@
+#lang racket
+;; 2.64_a
 
-;; 2.64
+(define (make-tree entry left right)
+  (list entry left right))
 
 (define (list->tree elements)
   (car (partial-tree elements (length elements))))
@@ -11,6 +14,8 @@
         (let ((left-result (partial-tree elts left-size)))
           (let ((left-tree (car left-result))
                 (non-left-elts (cdr left-result))
+                ;; we exclude one element that would be the entry of the tree
+                ;; so (n - (m + 1)) if m is the number of elements in left tree
                 (right-size (- n (+ left-size 1))))
             (let ((this-entry (car non-left-elts))
                   (right-result (partial-tree (cdr non-left-elts)
@@ -29,15 +34,3 @@
 ;; 5. Right tree is the car of this reuslt
 ;; 6. It makes tree from left tree, car of the non-left tree, and cdr of non-left tree(right tree)
 ;; 7. It conses the tree with the elements wihch are not included
-
-
-
-;; The tree produced by this algorithm for the list (1 3 5 7 9 11) is
-
- ;;   5
- ;; 1     9
- ;;  3  7  11
-
-;; T(n) = 2 * T(n/2) + Θ(1)
-
-;;It takes Θ(n) time
