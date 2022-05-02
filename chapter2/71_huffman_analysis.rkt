@@ -13,6 +13,7 @@
 
 
 ;; This is the structure of the tree. For n = 10, the tree retains its structure.
+;; try it out on your notebook, ain't bothering with it
 
 ;; Bits to encode most frequent symbol = 1
 ;; Bits to encode least frequent symbol = n-1 (Observe from the tree itself)

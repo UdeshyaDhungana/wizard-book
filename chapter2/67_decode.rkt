@@ -1,7 +1,7 @@
-
+#lang racket
 ;; What is the result of decoding this?
 
-(load "huffman.scm")
+(require "./huffman.rkt")
 
 
 (define sample-tree
