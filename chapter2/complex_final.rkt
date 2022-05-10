@@ -1,10 +1,15 @@
+#lang racket
 
-;; (put <op> <type> <item>)
-;; (get <op> <type>)
+;; Implementation of table; you need not know about this now
+(define *op-table* (make-hash))
 
+(define (put op type proc)
+  (hash-set! *op-table* (list op type) proc))
+
+(define (get op type)
+  (hash-ref *op-table* (list op type) '()))
 
 ;; Type tags
-
 (define (attach-tag type-tag contents)
   (cons type-tag contents))
 
@@ -24,8 +29,8 @@
   (define (imag-part z) (cdr z))
   (define (make-from-real-imag x y) (cons x y))
   (define (magnitude z)
-    (sqrt (+ (square (real-part z))
-             (square (imag-part z)))))
+    (sqrt (+ (sqr (real-part z))
+             (sqr (imag-part z)))))
   (define (angle z)
     (atan (imag-part z) (real-part z)))
   (define (make-from-mag-ang r a)
@@ -36,16 +41,15 @@
   (put 'imag-part '(rectangular) imag-part)
   (put 'magnitude '(rectangular) magnitude)
   (put 'angle '(rectangular) angle)
-  ;; Don't know why rectangular is not inside parenthesis here
   (put 'make-from-real-imag 'rectangular
        (lambda (x y) (tag (make-from-real-imag x y))))
-    ;; Don't know why rectangular is not inside parenthesis here
   (put 'make-from-mag-ang 'rectangular
        (lambda (r a) (tag (make-from-mag-ang r a))))
   'done)
 
+(install-rectangular-package)
+
 (define (install-polar-package)
-  ;; internal procedures
   (define (magnitude z) (car z))
   (define (angle z) (cdr z))
   (define (make-from-mag-angle r a) (cons r a))
@@ -54,30 +58,32 @@
   (define (imag-part z)
     (* (magnitude z) (sin (angle z))))
   (define (make-from-real-imag x y)
-    (cons (sqrt (+ (square x) (square y)))
-	  (atan y x)))
+    (cons (sqrt (+ (sqr x) (sqr y)))
+          (atan y x)))
   ;; interface to the rest of the system
   (define (tag x) (attach-tag 'polar x))
   (put 'real-part '(polar) real-part)
   (put 'imag-part '(polar) imag-part)
   (put 'magnitude '(polar) magnitude)
   (put 'angle '(polar) magnitude)
-    ;; Don't know why polar is not inside parenthesis here
+  ;; Don't know why polar is not inside parenthesis here
   (put 'make-from-real-imag 'polar
        (lambda (x y) (tag (make-from-real-imag x y))))
-      ;; Don't know why polar is not inside parenthesis here
+  ;; Don't know why polar is not inside parenthesis here
   (put 'make-from-mag-angle 'polar
        (lambda (r a) (tag (make-from-mag-angle r a))))
   'done)
+
+(install-polar-package)
 
 (define (apply-generic op . args)
   (let ((type-tags (map type-tag args)))
     (let ((proc (get op type-tags)))
       (if proc
-	  (apply-proc (map contents args))
-	  (error
-	   "No method for these types -- APPLY-GENERIC"
-	   (list op type-tags))))))
+          (apply proc (map contents args))
+          (error
+           "No method for these types -- APPLY-GENERIC"
+           (list op type-tags))))))
 
 
 (define (real-part z) (apply-generic 'real-part z))

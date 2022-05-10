@@ -1,35 +1,31 @@
-
 ;; Insatiable Enterprises' Program
 
 ;; Let the salary across different branch for a particular post is same
 ;; This is just for an example, we can make this unique for each branch
 ;; We're doing this just for the sake of simplicity
 
-(define (posts '((branch-manager . 100)
-		 (hr . 80)
-		 (accountant . '75)
-		 (officer . 70)
-		 (clerk . 60))))
+(define posts '((branch-manager . 100)
+                 (hr . 80)
+                 (accountant . '75)
+                 (officer . 70)
+                 (clerk . 60)))
 
 (define (get-salary-from-post post)
   (define (seek current-data)
     (cond ((null? current-data)
-	   (error "no post found -- GET-SALARY-FROM-POST" post))
-	  ((eq? (caar current-data) post) (cdar current-data))
-	  (else (seek (cdr current-data)))))
+           (error "no post found -- GET-SALARY-FROM-POST" post))
+          ((eq? (caar current-data) post) (cdar current-data))
+          (else (seek (cdr current-data)))))
   (seek posts))
 
 (define (get-post-from-salary salary)
   (define (seek current-data)
     (cond ((null? current-data)
-	   (error "no post found -- GET-SALARY-FROM-POST" post))
-	  ((= (cdar current-data) salary) (caar current-data))
-	  (else (seek (cdr current-data)))))
+           (error "no post found -- GET-POST-FROM-SALARY" salary))
+          ((= (cdar current-data) salary) (caar current-data))
+          (else (seek (cdr current-data)))))
   (seek posts))
 
-;; Take that you capitalists, democracy at work!
-
-;; I don't know how to implement current date, so I'll assume a fixed year
 
 (define current-year 2021)
 (define (get-since-from-experience experience)
@@ -80,9 +76,9 @@
 
   (define (make-from-post-start_date name id post start_date)
     (list name
-	  id
-	  (get-salary-from-post post)
-	  (get-experience-from-since start_date)))
+          id
+          (get-salary-from-post post)
+          (get-experience-from-since start_date)))
 
   (define (get-from-database person)
     (retrieve (name person)))
@@ -128,9 +124,9 @@
 
   (define (make-from-salary-experience name id salary experience)
     (list name
-	  id
-	  (get-post-from-salary salary)
-	  (get-since-from-experience experience)))
+          id
+          (get-post-from-salary salary)
+          (get-since-from-experience experience)))
 
   (define (make-from-post-start_date name id post start_date)
     (list name id post start_date))
@@ -163,8 +159,8 @@
       (if proc
           (apply proc (map contents args))
           (error
-            "No method for these types -- APPLY-GENERIC"
-            (list op type-tags))))))
+           "No method for these types -- APPLY-GENERIC"
+           (list op type-tags))))))
 
 
 (define (name emp) (apply-generic 'name emp))

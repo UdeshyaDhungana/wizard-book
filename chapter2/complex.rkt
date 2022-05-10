@@ -1,4 +1,4 @@
-
+;; DON'T LOAD THIS FILE; CONATINS MULTIPLE DEFINITIONS OF SAME NAME FUNCTIONS
 ;; Complex number representations
 
 (make-from-real-imag (real-part z) (imag-part z))
@@ -7,7 +7,7 @@
 
 (define (add-complex z1 z2)
   (make-from-real-imag (+ (real-part z1) (real-part z2))
-		       (+ (imag-part z1) (imag-part z2))))
+                       (+ (imag-part z1) (imag-part z2))))
 
 (define (sub-complex z1 z2)
   (make-from-real-imag (- (real-part z1) (real-part z2))
@@ -18,7 +18,7 @@
 
 (define (div-complex z1 z2)
   (make-from-mag-ang (/ (magnitude z1) (magnitude z2))
-		     (- (angle z1) (angle z2))))
+                     (- (angle z1) (angle z2))))
 
 
 ;; Imagine, Ben is working on rectangular representation. His part would be
