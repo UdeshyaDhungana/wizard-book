@@ -76,6 +76,7 @@
 
 (install-polar-package)
 
+;; only works for a single one
 (define (apply-generic op . args)
   (let ((type-tags (map type-tag args)))
     (let ((proc (get op type-tags)))
