@@ -38,3 +38,5 @@
 		    (op (succ-raise (car args) (cadr args)) (cadr args))))
               (error "No method for these types"
                      (list op type-tags)))))))
+
+;; improve this

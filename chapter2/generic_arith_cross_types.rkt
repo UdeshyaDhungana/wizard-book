@@ -2,32 +2,29 @@
 
 (define *op-table* (make-hash))
 
+(provide put)
 (define (put op type proc)
   (hash-set! *op-table* (list op type) proc))
 
+(provide get)
 (define (get op type)
   (hash-ref *op-table* (list op type) '()))
 
+(provide attach-tag)
 (define (attach-tag type-tag contents)
   (cons type-tag contents))
 
+(provide type-tag)
 (define (type-tag datum)
   (if (pair? datum)
       (car datum)
       (error "Bad tagged datum -- TYPE-TAG" datum)))
 
+(provide contents)
 (define (contents datum)
   (if (pair? datum)
       (cdr datum)
       (error "Bad tagged datum -- CONTENTS" datum)))
-
-;; (define (apply-generic op . args)
-;;   (let ((type-tags (map type-tag args)))
-;;     (let ((proc (get op type-tags)))
-;;       (if proc
-;;           (apply proc (map contents args))
-;;           (error "No method for these types -- APPLY GENERIC"
-;;                  (list op type-tags))))))
 
 (define (install-rectangular-package)
   (define (real-part z) (car z))
@@ -52,6 +49,7 @@
   'done)
 (install-rectangular-package)
 
+
 (define (install-polar-package)
   (define (magnitude z) (car z))
   (define (angle z) (cdr z))
@@ -75,11 +73,18 @@
   'done)
 (install-polar-package)
 
+(provide real-part)
 (define (real-part z) (apply-generic 'real-part z))
+(provide imag-part)
 (define (imag-part z) (apply-generic 'imag-part z))
+(provide magnitude)
 (define (magnitude z) (apply-generic 'magnitude z))
+(provide angle)
 (define (angle z) (apply-generic 'angle z))
 
+
+;; generic procedures
+;; don't make these available
 (define (add x y) (apply-generic 'add x y))
 (define (sub x y) (apply-generic 'sub x y))
 (define (mul x y) (apply-generic 'mul x y))
@@ -102,6 +107,7 @@
   'done)
 (install-scheme-number-package)
 
+(provide make-scheme-number)
 (define (make-scheme-number n)
   ((get 'make 'scheme-number) n))
 
@@ -140,6 +146,7 @@
   'done)
 (install-rational-package)
 
+(provide make-rational)
 (define (make-rational n d)
   (get 'make 'rational) n d)
 
@@ -182,9 +189,11 @@
   'done)
 (install-complex-package)
 
+(provide make-complex-from-real-imag)
 (define (make-complex-from-real-imag x y)
   ((get 'make-from-real-imag 'complex) x y))
 
+(provide make-complex-from-mag-ang)
 (define (make-complex-from-mag-ang r a)
   ((get 'make-from-mag-ang 'complex) r a))
 
@@ -193,15 +202,17 @@
 
 (define *coercion-table* (make-hash))
 
-(define (put-coercion op type proc)
-  (hash-set! *coercion-table* (list op type) proc))
+(provide put-coercion)
+(define (put-coercion type-1 type-2 func)
+  (hash-set! *coercion-table* (list type-1 type-2) func))
 
-(define (get-coercion op type)
-  (hash-ref *coercion-table* (list op type) '()))
-
+(provide get-coercion)
+(define (get-coercion type-1 type-2)
+  (hash-ref *coercion-table* (list type-1 type-2) '()))
 
 (define (scheme-number->complex n)
   (make-complex-from-real-imag (contents n) 0))
+(put-coercion 'scheme-number 'complex scheme-number->complex)
 
 
 ;; we need to change apply-generic function
@@ -210,7 +221,7 @@
   (let ((type-tags (map type-tag args)))
     ;; get procedure for the types
     (let ((proc (get op type-tags)))
-      (if proc
+      (if (not (eq? proc '()))
           ;; if procedure exists, apply it
           (apply proc (map contents args))
           ;; if length of args is 2, we do this, else error
