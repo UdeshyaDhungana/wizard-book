@@ -1,6 +1,5 @@
 #lang racket
 
-
 (define *op-table* (make-hash))
 
 (provide put)
@@ -26,25 +25,6 @@
   (if (pair? datum)
       (cdr datum)
       (error "Bad tagged datum -- CONTENTS" datum)))
-
-;; (define hierarchy '(integer rational real complex))
-;; generic raise operation
-;; (define (raise data)
-;;   (define (seeker tower)
-;;     (cond ((null? tower)
-;;            (error "type not found in tower -- RAISE" (list data hierarchy)))
-;;           ((eq? (type-tag data) (car tower))
-;;            (if (null? (cdr tower))
-;;                data
-;;                (let ((raiser (get-coercion (type-tag data) (cadr tower))))
-;;                  (if (not (eq? raise '()))
-;;                      (raiser (contents x)) ;raise it
-;;                      (error "no coercion found for types -- RAISE" ;no coercion found
-;;                             ;; for our integer->rational->real->complex, this branch will not be executed
-;;                             ;; as all coercions are defined
-;;                             (list (type-tag data) (cadr tower)))))))
-;;           (else (seeker (cdr tower)))))
-;;   (seeker hierarchy))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (define (install-rectangular-package)
@@ -126,6 +106,7 @@
   (put 'div '(integer integer)
        (lambda (x y)
              (make-rational x y)))
+  ;; raise: integer -> rational
   (put 'raise '(integer)
        (lambda (x) (make-rational x 1)))
   (put 'make 'integer
@@ -169,6 +150,7 @@
        (lambda (x y) (tag (mul-rat x y))))
   (put 'div '(rational rational)
        (lambda (x y) (tag (div-rat x y))))
+  ;; raise: rational -> real
   (put 'raise '(rational)
        (lambda (x) (make-real (/ (numer x) (denom x)))))
   (put 'make 'rational
@@ -194,6 +176,7 @@
        (lambda (x y) (tag (/ x y))))
   (put 'make 'real
        (lambda (x) (tag x)))
+  ;; raise: real->complex
   (put 'raise '(real)
        (lambda (x) (make-complex-from-real-imag x 0)))
   'done)
@@ -262,14 +245,21 @@
 (define (get-coercion type-1 type-2)
   (hash-ref *coercion-table* (list type-1 type-2) '()))
 
+;; this is the tower
+(define tower '(integer rational real complex))
 
-;; we need to change apply-generic function
-;; still the primitive apply-generic function
-;; this has to be modified if we want to take advantage of raising
-;; through tower of types
-;; modification is in the next solution
+(define (which-lower-type? type1 type2)
+  (let ((type1memq (memq type1 tower))
+        (type2memq (memq type2 tower)))
+    (if (and type1memq type2memq)
+        (if (> (length type1memq) (length type2memq))
+            type1
+            type2)
+        (error "One or more type not found in tower" (list type1 type2)))))
+
+
+;; apply generic is modified to take advantage of raise
 (define (apply-generic op . args)
-  ;; get types
   (let ((type-tags (map type-tag args)))
     ;; get procedure for the types
     (let ((proc (get op type-tags)))
@@ -283,15 +273,11 @@
                     (type-2 (cadr type-tags))
                     (a1 (car args))
                     (a2 (cadr args)))
+                (let ((lower-type (which-lower-type? type-1 type-2) ))
+                  (if (eq? lower-type type-1)
+                      (apply-generic op (raise a1) a2)
+                      (apply-generic op a2 (raise a2)))))
+              (error "No method for these types" (list op args)))))))
                 ;; get coercion acording to table
-                (let ((t1->t2 (get-coercion type-1 type-2))
-                      (t2->t1 (get-coercion type-2 type-1)))
-                  ;; if first coercion exists, do it
-                  (cond (t1->t2
-                         (apply-generic op (t1->t2 a1) a2))
-                        (t2->t1
-                         ;; else you know
-                         (apply-generic op (t2->t1 a2) a1))
-                        (else (error "No method for these types"
-                                     (list op type-tags))))))
-              (error "No method for these types" (list op type-tags)))))))
+                ;; 1. determine the lower type
+                ;; 2. apply generic on raised and the other recursively

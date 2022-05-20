@@ -210,6 +210,7 @@
 (define (get-coercion type-1 type-2)
   (hash-ref *coercion-table* (list type-1 type-2) '()))
 
+;; demo
 (define (scheme-number->complex n)
   (make-complex-from-real-imag (contents n) 0))
 (put-coercion 'scheme-number 'complex scheme-number->complex)

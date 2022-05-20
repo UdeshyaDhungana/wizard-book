@@ -21,13 +21,13 @@
       (cdr datum)
       (error "Bad tagged datum -- CONTENTS" datum)))
 
-;; (define (apply-generic op . args)
-;;   (let ((type-tags (map type-tag args)))
-;;     (let ((proc (get op type-tags)))
-;;       (if proc
-;;           (apply proc (map contents args))
-;;           (error "No method for these types -- APPLY GENERIC"
-;;                  (list op type-tags))))))
+(define (apply-generic op . args)
+  (let ((type-tags (map type-tag args)))
+    (let ((proc (get op type-tags)))
+      (if proc
+          (apply proc (map contents args))
+          (error "No method for these types -- APPLY GENERIC"
+                 (list op type-tags))))))
 
 (define (install-rectangular-package)
   (define (real-part z) (car z))

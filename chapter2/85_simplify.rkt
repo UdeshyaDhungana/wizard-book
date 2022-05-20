@@ -1,6 +1,5 @@
 #lang racket
 
-
 (define *op-table* (make-hash))
 
 (provide put)
@@ -26,25 +25,6 @@
   (if (pair? datum)
       (cdr datum)
       (error "Bad tagged datum -- CONTENTS" datum)))
-
-;; (define hierarchy '(integer rational real complex))
-;; generic raise operation
-;; (define (raise data)
-;;   (define (seeker tower)
-;;     (cond ((null? tower)
-;;            (error "type not found in tower -- RAISE" (list data hierarchy)))
-;;           ((eq? (type-tag data) (car tower))
-;;            (if (null? (cdr tower))
-;;                data
-;;                (let ((raiser (get-coercion (type-tag data) (cadr tower))))
-;;                  (if (not (eq? raise '()))
-;;                      (raiser (contents x)) ;raise it
-;;                      (error "no coercion found for types -- RAISE" ;no coercion found
-;;                             ;; for our integer->rational->real->complex, this branch will not be executed
-;;                             ;; as all coercions are defined
-;;                             (list (type-tag data) (cadr tower)))))))
-;;           (else (seeker (cdr tower)))))
-;;   (seeker hierarchy))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (define (install-rectangular-package)
@@ -111,7 +91,16 @@
 (define (sub x y) (apply-generic 'sub x y))
 (define (mul x y) (apply-generic 'mul x y))
 (define (div x y) (apply-generic 'div x y))
+(define (equ? x y) (apply-generic 'equ? x y))
 (define (raise x) (apply-generic 'raise x))
+(define (project x) (apply-generic 'project x))
+
+(define (drop x)
+  (if (or (not (pair? x))
+          (eq? (type-tag x) 'integer)
+          (not (equ? x (raise (project x)))))
+      x
+      (drop (project x))))
 
 
 (define (install-integer-package)
@@ -126,8 +115,12 @@
   (put 'div '(integer integer)
        (lambda (x y)
              (make-rational x y)))
+  (put 'equ? '(integer integer)
+       (lambda (x y)
+         (= x y)))
+  ;; raise: integer -> real
   (put 'raise '(integer)
-       (lambda (x) (make-rational x 1)))
+       (lambda (x) (make-real x)))
   (put 'make 'integer
        (lambda (x)
          (if (integer? x)
@@ -169,8 +162,14 @@
        (lambda (x y) (tag (mul-rat x y))))
   (put 'div '(rational rational)
        (lambda (x y) (tag (div-rat x y))))
+  (put 'equ? '(rational rational)
+       (lambda (x y) (= (* (numer x) (denom y))
+                        (* (denom x) (numer y)))))
+  ;; raise: rational -> real
   (put 'raise '(rational)
        (lambda (x) (make-real (/ (numer x) (denom x)))))
+  (put 'project '(rational)
+       (lambda (x) (make-integer (numer x))))
   (put 'make 'rational
        (lambda (n d) (tag (make-rat n d))))
   'done)
@@ -192,10 +191,15 @@
        (lambda (x y) (tag (* x y))))
   (put 'div '(real real)
        (lambda (x y) (tag (/ x y))))
+  (put 'equ? '(real real)
+       (lambda (x y) (= x y)))
   (put 'make 'real
        (lambda (x) (tag x)))
+  ;; raise: real->complex
   (put 'raise '(real)
        (lambda (x) (make-complex-from-real-imag x 0)))
+  (put 'project '(real)
+       (lambda (x) (make-integer (round x))))
   'done)
 (install-real-package)
 
@@ -230,6 +234,11 @@
        (lambda (z1 z2) (tag (mul-complex z1 z2))))
   (put 'div '(complex complex)
        (lambda (z1 z2) (tag (div-complex z1 z2))))
+  (put 'equ? '(complex complex)
+       (lambda (z1 z2) (and (= (real-part z1)
+                                  (real-part z2))
+                            (= (imag-part z1)
+                                  (imag-part z2)))))
   (put 'make-from-real-imag 'complex
        (lambda (x y) (tag (make-from-real-imag x y))))
   (put 'make-from-mag-ang 'complex
@@ -238,6 +247,10 @@
   (put 'imag-part '(complex) imag-part)
   (put 'magnitude '(complex) magnitude)
   (put 'angle '(complex) angle)
+  (put 'project '(complex)
+       (lambda (z)
+         (display "Now commencing")
+         (make-real (real-part z))))
   'done)
 (install-complex-package)
 
@@ -248,6 +261,14 @@
 (provide make-complex-from-mag-ang)
 (define (make-complex-from-mag-ang r a)
   ((get 'make-from-mag-ang 'complex) r a))
+
+
+(put 'equ? '(rational real)
+     (lambda (x z)
+       (equ? (raise x) z)))
+(put 'equ? '(real rational)
+     (lambda (z x)
+       (equ? z (raise x))))
 
 
 ;; cross type operations
@@ -262,20 +283,29 @@
 (define (get-coercion type-1 type-2)
   (hash-ref *coercion-table* (list type-1 type-2) '()))
 
+;; this is the tower
+(define tower '(integer rational real complex))
+(define special-operations '(project raise))
 
-;; we need to change apply-generic function
-;; still the primitive apply-generic function
-;; this has to be modified if we want to take advantage of raising
-;; through tower of types
-;; modification is in the next solution
+(define (which-lower-type? type1 type2)
+  (let ((type1memq (memq type1 tower))
+        (type2memq (memq type2 tower)))
+    (if (and type1memq type2memq)
+        (if (> (length type1memq) (length type2memq))
+            type1
+            type2)
+        (error "One or more type not found in tower" (list type1 type2)))))
+
+
+;; apply generic is modified to take advantage of raise
 (define (apply-generic op . args)
-  ;; get types
   (let ((type-tags (map type-tag args)))
     ;; get procedure for the types
     (let ((proc (get op type-tags)))
       (if (not (eq? proc '()))
-          ;; if procedure exists, apply it
-          (apply proc (map contents args))
+          (if (memq op special-operations)
+              (apply proc (map contents args))
+              (drop (apply proc (map contents args))))
           ;; if length of args is 2, we do this, else error
           (if (= (length args) 2)
               ;; get types, and arguments
@@ -283,15 +313,16 @@
                     (type-2 (cadr type-tags))
                     (a1 (car args))
                     (a2 (cadr args)))
-                ;; get coercion acording to table
-                (let ((t1->t2 (get-coercion type-1 type-2))
-                      (t2->t1 (get-coercion type-2 type-1)))
-                  ;; if first coercion exists, do it
-                  (cond (t1->t2
-                         (apply-generic op (t1->t2 a1) a2))
-                        (t2->t1
-                         ;; else you know
-                         (apply-generic op (t2->t1 a2) a1))
-                        (else (error "No method for these types"
-                                     (list op type-tags))))))
-              (error "No method for these types" (list op type-tags)))))))
+                (let ((lower-type (which-lower-type? type-1 type-2) ))
+                  (if (eq? lower-type type-1)
+                      (apply-generic op (raise a1) a2)
+                      (apply-generic op a2 (raise a2)))))
+              (error "No method for these types" (list op args)))))))
+
+
+(define a (make-complex-from-real-imag 4 0))
+(drop a)
+
+(define x (make-complex-from-real-imag 4 4))
+(define y (make-complex-from-real-imag 4 -4))
+(add x y)

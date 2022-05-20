@@ -35,3 +35,6 @@
  (define (div-complex z1 z2)
    (make-from-mag-ang (div (magnitude z1) (magnitude z2))
                       (sub (angle z1) (angle z2))))
+
+
+;; Not implementing this one in the main program because i've wasted enough hours of my life
