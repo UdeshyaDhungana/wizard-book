@@ -217,6 +217,7 @@
 
 
 ;; we need to change apply-generic function
+(provide apply-generic)
 (define (apply-generic op . args)
   ;; get types
   (let ((type-tags (map type-tag args)))
