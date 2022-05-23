@@ -1,12 +1,14 @@
-
+#lang racket
 ;; Tomorrow
 
 (define f
-  (let ((expired 0))
-    (lambda (x)
-      (if (= expired 0)
-	  (set! expired (+ expired 1)) x
-	  0))))
+  (let ((calls 0))
+    (lambda (arg)
+      (if (= calls 0)
+          arg
+          (begin (set! calls 1)
+                 0)))))
+
 
 ;; function expires, i.e. returns 0 after first call,
 ;; returns x otherwise
