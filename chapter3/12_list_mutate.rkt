@@ -1,3 +1,14 @@
+#lang sicp
+
+(define (last-pair seq)
+  (if (null? (cdr seq))
+      seq
+      (last-pair (cdr seq))))
+
+
+(define (append! x y)
+  (set-cdr! (last-pair x) y)
+  x)
 
 (define x (list 'a 'b))
 (define y (list 'c 'd))

@@ -1,14 +1,18 @@
-
+#lang sicp
 ;; A procedure that determines whether a list contains a
 
 (define (has-cycle? x)
   (let ((visited '()))
     (define (helper x)
       (cond ((not (pair? x)) 0)
-	    ((memq x visited) 1)
-	    (else (begin (set! visited (cons x visited))
-			 (helper (cdr x))))))
+            ((memq x visited) 1)
+            (else (begin (set! visited (cons x visited))
+                         (helper (cdr x))))))
     (helper x)))
+
+(define x '(2 . 3))
+(set-cdr! x x)
+(has-cycle? x)
 
 ;; Detects a cycle for a list, not for a tree
 

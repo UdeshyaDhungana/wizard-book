@@ -1,3 +1,4 @@
+#lang sicp
 
 ;; Let's count pairs
 
@@ -12,10 +13,14 @@
   (let ((visited '()))
     (define (helper x)
       (if (or (not (pair? x)) (memq x visited))
-	  0
-	  (begin
-	    (set! visited (cons x visited))
-	    (+ (helper (car x))
-	       (helper (cdr x))
-	       1))))
-  (helper x)))
+          0
+          (begin
+            (set! visited (cons x visited))
+            (+ (helper (car x))
+               (helper (cdr x))
+               1))))
+    (helper x)))
+
+
+(count-pairs '(2 3 (4 . 5) (1 2 9 10)))
+(count-pairs '(1 2))
