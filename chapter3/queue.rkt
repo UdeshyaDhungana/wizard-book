@@ -1,3 +1,4 @@
+#lang sicp
 ;; Representing Queues
 
 (define (front-ptr queue) (car queue))

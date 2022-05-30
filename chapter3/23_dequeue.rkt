@@ -1,3 +1,4 @@
+#lang sicp
 ;; Representing dequeues
 
 (define (front-ptr dequeue) (car dequeue))
@@ -15,7 +16,7 @@
 ;; next pointer
 
 (define (make-dcell item)
-  (cons (cons () item) ()))
+  (cons (cons '() item) '()))
 (define (prev-pointer dcell)
   (caar dcell))
 (define (data dcell)

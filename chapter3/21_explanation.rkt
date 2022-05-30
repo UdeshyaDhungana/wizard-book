@@ -1,3 +1,4 @@
+#lang sicp
 ;; Explaining the queue
 
 ;; List interpreter does not know how to print a queue
