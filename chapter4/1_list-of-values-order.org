@@ -1,0 +1,21 @@
+The version of ~list-of-values~ which always evaluates the list of values from left to right is
+#+begin_src racket
+(define (list-of-values exps env)
+  (if (no-operands? exps)
+      '()
+      (let ((first-evaluated (eval (first-operands exps) env))
+            (the-rest (list-of-values (rest-operands exps) env)))
+        (cons first-evaluated the-rest))))
+#+end_src
+
+And the one which evaluates it in right to left order is a simple modification of the upper one.
+
+#+begin_src racket
+(define (list-of-values exps env)
+  (if (no-operands? exps)
+      '()
+
+      (let ((the-rest (list-of-values (rest-operands exps) env))
+            (first-evaluated (eval (first-operands exps) env)))
+        (cons first-evaluated the-rest))))
+#+end_src

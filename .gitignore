@@ -6,3 +6,6 @@
 *.scm#*
 .#*.scm
 .DS_Store
+
+*.rkt~
+*.scm~
