@@ -10,7 +10,7 @@
 (task 1 2 3)
 (task 4 5 0)
 
-;; Alternative way.
+;; Alternative way. (works only for non negative)
 (define (max-sos a b c)
   (let ((ab (sum-of-square a b))
         (bc (sum-of-square b c))
